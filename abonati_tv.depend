@@ -5,3 +5,10 @@
 	<fstream>
 	<cstdlib>
 
+1582742520 source:d:\proiecte code blocks\abonati-tv\main.cpp
+	<iostream>
+	<string.h>
+	<fstream>
+	<conio.h>
+	<windows.h>
+

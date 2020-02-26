@@ -32,8 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="abonament.dat" />
 		<Unit filename="abonati.dat" />
-		<Unit filename="abonati.data" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
