@@ -1,15 +1,12 @@
 #include <iostream>
 #include <string.h>
 #include <fstream>
-#include <cstdlib>
+#include <conio.h>
+#include <windows.h>
 
 using namespace std;
 
-
-ifstream outfile;
-outfile.open("abonati.dat");
-
-int n=0;
+int n=1;
 
 struct abonat{
     char nume[50];
@@ -18,7 +15,9 @@ struct abonat{
     int nr_abonat;
 
 }abonati[100];
+
 void Citire(int &n){
+    ifstream fin("abonati.dat");
     do
     {
         fin.getline(abonati[n].nume,50);
@@ -31,31 +30,39 @@ void Citire(int &n){
         fin.get();
         n++;
     }while(fin);
-
+    fin.close();
 }
-void Afisare(int n){
-    for(int i=0;i<n;i++)
-    {
+
+void Afisare(){
+    for(int i=1;i<n;i++){
         cout<<abonati[i].nume<<endl;
         cout<<abonati[i].prenume<<endl;
         cout<<abonati[i].abonament<<endl;
         cout<<abonati[i].nr_abonat<<endl;
+        cout<<endl;
     }
 
 }
 
+void AfisarPoz(int poz){
+        cout<<abonati[poz].nume<<endl;
+        cout<<abonati[poz].prenume<<endl;
+        cout<<abonati[poz].abonament<<endl;
+        cout<<abonati[poz].nr_abonat<<endl;
+}
 
-void Adaugare(int &n, abonat a[]){
+void Adaugare(){
     abonat aux;
     cin>>aux.nume;
     cin>>aux.prenume;
     cin>>aux.abonament;
-    aux.nr_abonat=a[n].nr_abonat++;
-    a[n+1]=aux;
+    aux.nr_abonat=abonati[n].nr_abonat++;
+    abonati[n+1]=aux;
     n++;
 
 }
-void AdaugarePoz(int n, abonat a[],int poz){
+
+void AdaugarePoz(int poz){
     abonat aux,aux2;
     int i;
     cin>>aux.nume;
@@ -63,15 +70,53 @@ void AdaugarePoz(int n, abonat a[],int poz){
     cin>>aux.abonament;
     for(i=n;i>=poz;i--)
     {
-        a[i++]=a[i];
+        abonati[i++]=abonati[i];
     }
-    a[poz]=aux;
+    abonati[poz]=aux;
 
 }
 
+void Stergere(int poz){
+    for(int i=poz;i<=n;i++)
+    {
+        abonati[i]=abonati[i+1];
+    }
+}
+
+void CautareNume()
+{
+    char c[50];
+    cin.get(c,50);
+    for(int i=1;i<n;i++)
+    {
+        if(strstr(c,abonati[i].nume))
+            AfisarPoz(i);
+    }
+}
+void Meniu(){
+    int ok=1,x;
+    Citire(n);
+    while(ok)
+    {
+        cout<<"Sall"<<endl;
+        cout<<"CF"<<endl;
+        cout<<"1.Vedeti lista"<<endl;
+        cout<<"2.Adaugati un abonament"<<endl;
+        cout<<"3.Cautati dupa nume"<<endl;
+        cin>>x;
+        if(x==1)
+            Afisare();
+        else if(x==2)
+            Adaugare();
+        else if(x==3)
+            CautareNume();
+        system("cls");
+    }
+}
+
+
 
 int main(){
-    Citire(n);
-    Afisare(n);
+    Meniu();
     return 0;
 }
