@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int n=1,b=1;
+int n=0,b=0;
 
 struct abonament{
         char nume[50];
@@ -22,7 +22,7 @@ struct abonat{
     char abonament[50];
     int nr_abonat;
 
-} abonati[100];
+}abonati[101];
 
 void Citire(int &n){
     ifstream fin("abonati.dat");
@@ -34,7 +34,7 @@ void Citire(int &n){
         //fin.get();
         fin.getline(abonati[n].abonament,50);
         //fin.get();
-        abonati[n].nr_abonat=n;
+        abonati[n].nr_abonat=n+1;
         fin.get();
         n++;
     }
@@ -43,20 +43,21 @@ void Citire(int &n){
 }
 
 void CitireAbn(int &b){
-    ifstream fin("abonament.dat");
+    ifstream gin("abonament.dat");
     do
     {
-        fin.getline(abonamente[n].nume,50);
-        fin>>abonamente[n].pret;
-        fin>>abonamente[n].canale;
+        gin.getline(abonamente[n].nume,50);
+        gin>>abonamente[n].pret;
+        gin>>abonamente[n].canale;
+        //gin.get();
         b++;
     }
-    while(fin);
-    fin.close();
+    while(gin);
+    gin.close();
 }
 
 void Afisare(){
-    for(int i=1; i<n; i++)
+    for(int i=0; i<n; i++)
     {
         cout<<"Nume: "<<abonati[i].nume<<endl;
         cout<<"Prenume: "<<abonati[i].prenume<<endl;
@@ -67,7 +68,7 @@ void Afisare(){
 }
 
 void AfisareAbn(){
-    for(int i=1; i<=b; i++)
+    for(int i=0; i<b; i++)
     {
         cout<<"Nume abonament: "<<abonamente[i].nume<<endl;
         cout<<"Pret abonament: "<<abonamente[i].pret<<endl;
@@ -105,14 +106,14 @@ void Adaugare(){
 }
 
 void AdaugarePoz(int poz){
-    abonat aux,aux2;
+    abonat aux;
     int i;
     cin>>aux.nume;
     cin>>aux.prenume;
     cin>>aux.abonament;
     for(i=n; i>=poz; i--)
     {
-        abonati[i++]=abonati[i];
+        abonati[i+1]=abonati[i];
     }
     abonati[poz]=aux;
 
@@ -130,31 +131,32 @@ void Salvare(){
 }
 
 void Stergere(int poz){
-    for(int i=poz; i<=n; i++)
+    for(int i=--poz; i<n; i++)
     {
         abonati[i]=abonati[i+1];
     }
+    n--;
 }
 
-void CautareNume( char c[50]){
+void CautareNume(){
     char nume[50];
-    cin.get(nume,50);
-    for(int i=1; i<n; i++)
+    cout<<"Baga: ";
+    cin.getline(nume,50);
+    for(int i=0; i<n; i++)
     {
-        if(strcmp(abonati[i].nume,c)==0)
+        if(strcmp(abonati[i].nume,nume)==0)
         {
             cout<<abonati[i].nr_abonat<<endl;
             cout<<abonati[i].nume<<endl;
             cout<<abonati[i].prenume<<endl;
             cout<<abonati[i].abonament<<endl;
         }
-
     }
 }
 
 void OrdNume(){
-    for(int i=1; i<=n; i++)
-        for(int j=i+1; j<=n; j++)
+    for(int i=0; i<n; i++)
+        for(int j=i+1; j<n; j++)
         {
             if(strcmp(abonati[i].nume,abonati[j].nume)>0)
             {
@@ -164,12 +166,13 @@ void OrdNume(){
                 abonati[j]=aux;
             }
         }
+    Afisare();
 }
 
 
 void OrdPrenume(){
-    for(int i=1; i<=n; i++)
-        for(int j=i+1; j<=n; j++)
+    for(int i=0; i<n; i++)
+        for(int j=i+1; j<n; j++)
         {
             if(strcmp(abonati[i].prenume,abonati[j].prenume)>0)
             {
@@ -183,7 +186,6 @@ void OrdPrenume(){
 
 void Meniu(){
     int ok=1,x;
-    char nume[50];
     Citire(n);
     CitireAbn(b);
     while(ok)
@@ -198,8 +200,10 @@ void Meniu(){
         cout<<"3.Adaugati un abonament"<<endl;
         cout<<"4.Cautati dupa nume"<<endl;
         cout<<"5.Stergeti un abonat"<<endl;
-        cout<<"6.Inchidere program"<<endl<<"Optiunea dumneavoastra:";
+        cout<<"6.Ordonati crescator dupa nume"<<endl;
+        cout<<"7.Inchidere program"<<endl<<"Optiunea dumneavoastra:";
         cin>>x;
+        cin.get();
         switch(x)
         {
         case 1 :
@@ -244,8 +248,9 @@ void Meniu(){
         case 4 :
         {
             RstEcr();
-            cout<<"Inserati numele persoanei cautate:";
-            CautareNume(nume);
+            //cout<<"Inserati numele persoanei cautate:";
+
+            CautareNume();
             cout<<"Press 1 to go back to menu "<<endl;
             cin>>x;
             if(x==1)
@@ -259,7 +264,7 @@ void Meniu(){
         {
             RstEcr();
             int poz;
-            cout<<"Inserati codul abonatului";
+            cout<<"Inserati codul abonatului: ";
             cin>>poz;
             Stergere(poz);
             cout<<"Press 1 to go back to menu "<<endl;
@@ -270,14 +275,27 @@ void Meniu(){
                 RstEcr();
             }
         }
+        break;
         case 6 :
         {
             RstEcr();
-            ok=0;
+            OrdNume();
+            cout<<"Press 1 to go back to menu "<<endl;
+            cin>>x;
+            if(x==1)
+            {
+                break;
+                RstEcr();
+            }
         }
 
         break;
-
+        case 7:
+            {
+                RstEcr();
+                ok=0;
+            }
+        break;
         default :
             cout<<"\n Ati gresit. Reintroduceti optiunea. ";
         }

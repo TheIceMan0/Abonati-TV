@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1582710267 source:c:\users\elev\desktop\abonati_tv\main.cpp
+1582799946 source:c:\users\elev\desktop\abonati_tv\main.cpp
 	<iostream>
 	<string.h>
 	<fstream>
-	<cstdlib>
+	<conio.h>
+	<windows.h>
 
 1582742520 source:d:\proiecte code blocks\abonati-tv\main.cpp
 	<iostream>
