@@ -9,7 +9,7 @@ using namespace std;
 int n=0,b=0;
 
 struct abonament{
-        char nume[50];
+        char nume[20];
         int pret;
         int canale;
 }abonamente[10];
@@ -42,9 +42,9 @@ void Citire(int &n){
     fin.close();
 }
 
-void CitireAbn(int &b){
+void CitireAbn(int &b, abonament abonamente[]){
     ifstream gin("abonament.dat");
-    do
+    while(gin)
     {
         gin.getline(abonamente[n].nume,50);
         gin>>abonamente[n].pret;
@@ -52,7 +52,7 @@ void CitireAbn(int &b){
         //gin.get();
         b++;
     }
-    while(gin);
+
     gin.close();
 }
 
@@ -91,17 +91,15 @@ void RstEcr(){
     system("cls");
 }
 
-void Adaugare(){
-    abonat aux;
-    cout<<"Nume:";
-    cin>>aux.nume;
-    cout<<"Prenume: ";
-    cin>>aux.prenume;
-    cout<<"Abonament: ";
-    cin>>aux.abonament;
-    aux.nr_abonat=abonati[n].nr_abonat++;
-    abonati[n+1]=aux;
+void Adaugare(int n){
     n++;
+    cout<<"Nume:";
+    cin>>abonati[n+1].nume;
+    cout<<"Prenume: ";
+    cin>>abonati[n+1].prenume;
+    cout<<"Abonament: ";
+    cin>>abonati[n+1].abonament;
+    abonati[n+1].nr_abonat=abonati[n].nr_abonat++;
     cout<<"Va multumim ca ati ales compania noastra"<<endl;
 }
 
@@ -121,7 +119,7 @@ void AdaugarePoz(int poz){
 
 void Salvare(){
     ofstream fout("abonati.dat");
-    for(int i=1;i<n;i++)
+    for(int i=0;i<n;i++)
     {
         fout<<abonati[i].nume<<"\n";
         fout<<abonati[i].prenume<<"\n";
@@ -141,6 +139,7 @@ void Stergere(int poz){
 void CautareNume(){
     char nume[50];
     cout<<"Baga: ";
+    int k=0;
     cin.getline(nume,50);
     for(int i=0; i<n; i++)
     {
@@ -150,8 +149,11 @@ void CautareNume(){
             cout<<abonati[i].nume<<endl;
             cout<<abonati[i].prenume<<endl;
             cout<<abonati[i].abonament<<endl;
+            k++;
         }
     }
+    if(k==1)
+        cout<<"Ne pare rau dar persoana dorita nu exista";
 }
 
 void OrdNume(){
@@ -187,7 +189,7 @@ void OrdPrenume(){
 void Meniu(){
     int ok=1,x;
     Citire(n);
-    CitireAbn(b);
+    CitireAbn(b,abonamente);
     while(ok)
     {
         RstEcr();
@@ -235,7 +237,7 @@ void Meniu(){
         case 3 :
         {
             RstEcr();
-            Adaugare();
+            Adaugare(n);
             cout<<"Press 1 to go back to menu "<<endl;
             cin>>x;
             if(x==1)
