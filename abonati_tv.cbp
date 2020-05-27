@@ -32,7 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="abonament.dat" />
+		<Unit filename="abonamente.dat" />
 		<Unit filename="abonati.dat" />
 		<Unit filename="main.cpp" />
 		<Extensions>
